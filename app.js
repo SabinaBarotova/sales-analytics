@@ -442,6 +442,7 @@
   }
 
   function loadState() {
+    if (STATIC_DEMO) return blankState();
     try {
       const stored = JSON.parse(window.localStorage.getItem(STORAGE_KEY));
       if (
@@ -473,6 +474,7 @@
   }
 
   function stashLocal() {
+    if (STATIC_DEMO) return;
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch {
