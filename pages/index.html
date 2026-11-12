@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a1f41" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content="Исследование восприятия нашей компании и её продуктов глазами клиентов." />
+    <title>Исследование восприятия нашей компании</title>
+    <link rel="icon" href="assets/rubytech-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css?v=20260903-1" />
+  </head>
+  <body>
+    <div class="brand-atmosphere" aria-hidden="true">
+      <div class="brand-atmosphere__ruby">
+        <img src="assets/rubytech-mark.svg" alt="" />
+      </div>
+      <div class="brand-atmosphere__lines"></div>
+      <div class="brand-atmosphere__beam"></div>
+    </div>
+
+    <main class="survey-shell">
+      <header class="topbar" aria-label="Исследование восприятия нашей компании">
+        <a class="brand" href="./" aria-label="Опрос о восприятии компании">
+          <img src="assets/rubytech-logo.svg" alt="Rubytech" width="147" height="36" />
+        </a>
+        <div class="brand-context">
+          <span>Группа Rubytech</span>
+          <strong>Исследование репутации</strong>
+        </div>
+      </header>
+
+      <div class="survey-workspace">
+        <aside class="survey-rail" id="survey-rail" aria-hidden="true">
+          <div class="survey-rail__top">
+            <span class="survey-rail__overline">Навигация</span>
+            <strong class="survey-rail__index" id="rail-index">00</strong>
+          </div>
+          <div class="survey-rail__bottom">
+            <span class="survey-rail__title" id="rail-title">Исследование репутации</span>
+            <span class="survey-rail__marker">
+              <img src="assets/rubytech-mark.svg" alt="" />
+            </span>
+          </div>
+        </aside>
+
+        <section class="survey-card">
+          <span class="survey-card__accent" aria-hidden="true"></span>
+          <div class="progress-wrap" id="progress-wrap" hidden>
+            <div class="progress-meta">
+              <span id="step-label">Вопрос</span>
+              <span id="progress-value">0%</span>
+            </div>
+            <div
+              class="progress-track"
+              id="progress-track"
+              role="progressbar"
+              aria-labelledby="step-label"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            >
+              <div class="progress-bar" id="progress-bar"></div>
+            </div>
+          </div>
+
+          <div id="app" class="app-content"></div>
+          <p class="sr-only" id="save-status" role="status" aria-live="polite"></p>
+        </section>
+      </div>
+    </main>
+
+    <script>window.__GITHUB_PAGES__ = true;</script>
+    <script src="app.js?v=20260903-1" defer></script>
+  </body>
+</html>
+
+

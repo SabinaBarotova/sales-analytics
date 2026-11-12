@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#102145" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Аналитика исследования нашей компании</title>
+    <link rel="icon" href="../assets/rubytech-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="analytics.css?v=29" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="../" aria-label="Вернуться к анкете">
+          <img src="../assets/rubytech-logo.svg" alt="Rubytech" width="147" height="36" />
+          <span><small>аналитика репутации</small></span>
+        </a>
+        <div class="topbar-actions">
+          <span class="freshness" id="freshness">Загрузка данных…</span>
+          <button class="button button-quiet mobile-filter-toggle" id="mobile-filter-toggle" type="button">Фильтры</button>
+          <button class="button button-quiet" id="copy-view" type="button">Скопировать срез</button>
+          <button class="button button-primary" id="export-csv" type="button">Экспорт CSV</button>
+        </div>
+      </header>
+
+      <div class="workspace">
+        <aside class="filters" id="filters" aria-label="Фильтры аналитики">
+          <div class="filters-head">
+            <div><h2>Фильтры</h2></div>
+            <button class="icon-button" id="close-filters" type="button" aria-label="Закрыть фильтры">×</button>
+          </div>          <div class="quick-filters" aria-label="Быстрые фильтры">
+            <button class="quick-filter" type="button" data-preset="completed">Завершённые</button>
+          </div>
+
+          <div class="filter-settings">
+            <label for="sent-total">Разослано всего</label>
+            <div class="filter-settings-row"><input id="sent-total" type="number" min="0" step="1" placeholder="Введите число" /><button class="button button-secondary" id="save-sent-total" type="button">Сохранить</button></div>
+            <small id="sent-total-status">Задайте число для расчёта доли ответов.</small>
+          </div>
+
+
+          <div class="filter-group" id="brand-filter-group">
+            <label for="filter-brand">Бренд, с которым работает респондент</label>
+            <select id="filter-brand"></select>
+          </div>
+
+
+          <div class="filter-grid">
+            <div class="filter-group">
+              <label for="filter-status">Статус</label>
+              <select id="filter-status">
+                <option value="all">Любой</option>
+                <option value="completed">Завершён</option>
+                <option value="in_progress">В процессе</option>
+                <option value="screened_out">Завершено досрочно</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="filter-department">Отдел</label>
+              <select id="filter-department"></select>
+            </div>
+          </div>
+
+          <div class="filter-grid">
+            <div class="filter-group">
+              <label for="filter-from">Дата от</label>
+              <input id="filter-from" type="date" />
+            </div>
+            <div class="filter-group">
+              <label for="filter-to">Дата до</label>
+              <input id="filter-to" type="date" />
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label for="filter-frequency">Частота общения с клиентами</label>
+            <select id="filter-frequency"></select>
+          </div>
+
+          <div class="filter-group">
+            <label for="filter-industry">Отрасль клиента</label>
+            <select id="filter-industry"></select>
+          </div>
+
+          <div class="filter-grid">
+            <div class="filter-group">
+              <label for="filter-company-negative">Оценка: Группа Rubytech</label>
+              <select id="filter-company-negative"></select>
+            </div>
+            <div class="filter-group">
+              <label for="filter-product-negative">Оценка: Продукт Скала^р</label>
+              <select id="filter-product-negative"></select>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label for="filter-search">Поиск по всем ответам</label>
+            <input id="filter-search" type="search" placeholder="Слово, канал, наблюдение…" autocomplete="off" />
+          </div>
+
+          <div class="advanced-head">
+            <div><h3>Свои условия</h3></div>
+            <select id="rules-mode" aria-label="Логика условий">
+              <option value="all">Все условия</option>
+              <option value="any">Хотя бы одно</option>
+            </select>
+          </div>
+          <div class="advanced-rules" id="advanced-rules"></div>
+          <button class="button button-secondary button-full" id="add-rule" type="button">+ Добавить условие</button>
+
+          <div class="filter-footer">
+            <strong id="filtered-count">0 ответов</strong>
+            <button class="text-button" id="reset-filters" type="button">Сбросить фильтры</button>
+          </div>
+        </aside>
+
+        <main class="dashboard">
+          <div class="scope-summary" id="scope-summary" aria-live="polite"></div>
+          <section class="panel unified-summary-panel">
+            <header class="panel-head"><h2>Состояние ответов</h2><div class="panel-head-tools"><span class="panel-stat" id="status-scope">—</span><span class="info-note"><button type="button" aria-label="Что означает завершено досрочно">i</button><span class="info-tooltip" role="tooltip">«Завершено досрочно» означает, что респондент не общается напрямую с клиентами. Ответ сохранён, но не входит в основные репутационные оценки.</span></span></div></header>
+            <div class="summary-section summary-status">
+              <div class="status-summary" id="status-summary"></div>
+            </div>
+            <div class="summary-section">
+              <div class="summary-subhead"><h3>Общая картина</h3><span class="info-note"><button type="button" aria-label="Как считается общая статистика">i</button><span class="info-tooltip" role="tooltip">Общие негативные = (негативные оценки Rubytech + негативные оценки Скала^р) / (все ответы, дошедшие до B1 + все ответы, дошедшие до B4). Общие позитивные считаются по той же формуле. В знаменатель входят все ответы, дошедшие до B1 и B4, включая «Затрудняюсь ответить / не получал отзывы».</span></span></div>
+              <div id="overall-reputation"></div>
+            </div>
+          </section>
+          <section class="panel-grid">
+            <article class="panel"><header class="panel-head"><div><h2>Отделы, в которых работают респонденты</h2></div></header><div class="bar-chart" id="department-chart"></div></article>
+            <article class="panel"><header class="panel-head"><div><h2>Клиентские отрасли</h2></div><span class="info-note"><button type="button" aria-label="Как считать проценты по отраслям">i</button><span class="info-tooltip" role="tooltip">Можно выбрать несколько отраслей, поэтому сумма процентов может быть больше 100%.</span></span></header><div class="bar-chart" id="industry-chart"></div></article>
+          </section>
+
+          <section class="panel explorer-panel">
+            <header class="panel-head explorer-head">
+              <div><h2>Исследователь результатов</h2></div>
+              <div class="explorer-controls">
+                <select id="explorer-question" aria-label="Вопрос"></select>
+                <select id="explorer-segment" aria-label="Сегментация">
+                  <option value="none">Без сегментации</option>
+                  <option value="department">По отделу респондента</option>
+                  <option value="industry">По отрасли клиента</option>
+                  <option value="status">По статусу</option>
+                </select>
+              </div>
+            </header>
+            <div class="question-prompt"><p id="explorer-prompt-text"></p></div>
+            <p class="panel-description" id="explorer-description"></p>
+            <div class="explorer-chart" id="explorer-chart"></div>
+          </section>
+
+          <section class="panel-grid">
+            <article class="panel driver-chart"><header class="panel-head"><div><h2>Ключевые факторы выбора поставщиков</h2></div><span class="info-note"><button type="button" aria-label="Что показывает блок ключевых факторов">i</button><span class="info-tooltip" role="tooltip">Блок показывает ответы на вопрос A8: ключевые факторы выбора поставщиков. Вопрос A7 доступен в разделе «Исследователь результатов».</span></span></header><div class="bar-chart" id="factor-chart"></div></article>
+            <article class="panel"><header class="panel-head"><div><h2 id="risk-title">Средние оценки</h2></div></header><div class="dual-bars" id="distrust-chart"></div></article>
+          </section>
+
+          <section class="panel-grid">
+            <article class="panel"><header class="panel-head"><div><h2>Отзывы: кто сообщает позитив</h2></div><span class="info-note"><button type="button" aria-label="Какие вопросы показывают позитив">i</button><span class="info-tooltip" role="tooltip">B22 для Группы Rubytech и B55 для Продукта Скала^р.</span></span></header><div class="dual-bars" id="positive-roles-chart"></div></article>
+            <article class="panel"><header class="panel-head"><div><h2>Отзывы: кто сообщает негатив</h2></div><span class="info-note"><button type="button" aria-label="Какие вопросы показывают негатив">i</button><span class="info-tooltip" role="tooltip">B2 для Группы Rubytech и B5 для Продукта Скала^р.</span></span></header><div class="dual-bars" id="negative-roles-chart"></div></article>
+          </section>
+
+          <section class="panel-grid">
+            <article class="panel"><header class="panel-head"><div><h2>Медиа: источники, которые называют клиенты</h2></div></header><div class="bar-chart" id="media-chart"></div></article>
+            <article class="panel"><header class="panel-head"><div><h2>Медиа: источники, которые называют сотрудники</h2></div></header><div class="bar-chart" id="sales-media-chart"></div></article>
+          </section>
+
+          <section class="panel responses-panel">
+            <header class="panel-head table-head">
+              <div><h2>Все прохождения анкет</h2></div>
+              <div class="table-controls">
+                <label>На странице <select id="page-size"><option>10</option><option selected>25</option><option>50</option></select></label>
+                <select id="table-sort" aria-label="Сортировка">
+                  <option value="updated_desc">Сначала новые</option>
+                  <option value="updated_asc">Сначала старые</option>
+                  <option value="completion_desc">Сначала заполненные</option>
+                </select>
+              </div>
+            </header>
+            <div class="table-scroll">
+              <table>
+                <thead><tr><th>Последнее изменение</th><th>Статус</th><th>Отдел</th><th>Общение</th><th>Оценка</th><th>Заполнение</th><th></th></tr></thead>
+                <tbody id="responses-body"></tbody>
+              </table>
+            </div>
+            <div class="pagination"><button class="text-button" id="page-prev" type="button">← Назад</button><span id="page-info">—</span><button class="text-button" id="page-next" type="button">Вперёд →</button></div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+    <aside class="response-drawer" id="response-drawer" aria-label="Ответ респондента" aria-hidden="true">
+      <header><div><h2 id="drawer-title">Карточка ответа</h2></div><button class="icon-button" id="close-drawer" type="button" aria-label="Закрыть">×</button></header>
+      <div class="drawer-meta" id="drawer-meta"></div>
+      <div class="drawer-content" id="drawer-content"></div>
+    </aside>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="loading" id="loading"><span class="loading-mark"><i></i><i></i><i></i></span><p>Собираем аналитику…</p></div>
+    <div class="error-screen" id="error-screen" hidden><h1>Не удалось загрузить данные</h1><p id="error-message">Обновите страницу и попробуйте снова.</p><button class="button button-primary" id="retry-load" type="button">Повторить</button></div>
+
+    <script>window.__GITHUB_PAGES__ = true;</script>
+    <script src="schema.js?v=4" defer></script>
+    <script src="analytics.js?v=29" defer></script>
+  </body>
+</html>
+
+

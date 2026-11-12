@@ -1,6 +1,7 @@
 (() => {
   "use strict";
 
+  const STATIC_DEMO = window.__GITHUB_PAGES__ === true;
   const schema = window.AnalyticsSchema;
   const statusLabels = {
     completed: "Завершён",
@@ -857,10 +858,12 @@
 
   async function loadSettings() {
     try {
-      const response = await fetch("../api/analytics/settings", { headers: { Accept: "application/json" }, cache: "no-store" });
+      const response = await fetch(STATIC_DEMO ? "../demo-data/settings.json" : "../api/analytics/settings", { headers: { Accept: "application/json" }, cache: "no-store" });
       if (!response.ok) throw new Error(`Сервер вернул статус ${response.status}`);
       const payload = await response.json();
-      state.sentTotal = payload.sent_total == null ? null : (Number.isSafeInteger(Number(payload.sent_total)) ? Number(payload.sent_total) : null);
+      const localSent = STATIC_DEMO ? window.localStorage.getItem("reputation-survey:sent-total") : null;
+      const rawSent = localSent === null ? payload.sent_total : localSent;
+      state.sentTotal = rawSent == null || rawSent === "" ? null : (Number.isSafeInteger(Number(rawSent)) ? Number(rawSent) : null);
       el("sent-total").value = state.sentTotal == null ? "" : state.sentTotal;
       el("sent-total-status").textContent = state.sentTotal == null ? "Задайте число для расчёта доли ответов." : `Сохранено: ${state.sentTotal}`;
       renderAll();
@@ -877,6 +880,14 @@
       return;
     }
     try {
+      if (STATIC_DEMO) {
+        window.localStorage.setItem("reputation-survey:sent-total", value == null ? "" : String(value));
+        state.sentTotal = value;
+        el("sent-total-status").textContent = state.sentTotal == null ? "Значение очищено в браузере." : `Сохранено в браузере: ${state.sentTotal}`;
+        showToast("Число рассылки сохранено в браузере");
+        renderAll();
+        return;
+      }
       const response = await fetch("../api/analytics/settings", { method: "PUT", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ sent_total: value }) });
       if (!response.ok) throw new Error(`Сервер вернул статус ${response.status}`);
       const payload = await response.json();
@@ -893,7 +904,7 @@
     el("loading").hidden = false;
     el("error-screen").hidden = true;
     try {
-      const response = await fetch("../api/analytics/responses", { headers: { Accept: "application/json" }, cache: "no-store" });
+      const response = await fetch(STATIC_DEMO ? "../demo-data/responses.json" : "../api/analytics/responses", { headers: { Accept: "application/json" }, cache: "no-store" });
       if (!response.ok) throw new Error(`Сервер вернул статус ${response.status}`);
       const payload = await response.json();
       state.records = (payload.records || []).map((record) => ({

@@ -2,6 +2,7 @@
   "use strict";
 
   const SCHEMA_VERSION = 2;
+  const STATIC_DEMO = window.__GITHUB_PAGES__ === true;
   const STORAGE_KEY = `reputation-survey:state:v${SCHEMA_VERSION}`;
   const SAVE_TIMEOUT_MS = 12000;
   const app = document.getElementById("app");
@@ -582,6 +583,13 @@
     window.clearTimeout(textSaveTimer);
     stashLocal();
 
+    if (STATIC_DEMO) {
+      state.lastSavedRevision = state.revision;
+      stashLocal();
+      setSaveStatus("saved", "Ответ сохранён в браузере");
+      return;
+    }
+
     if (!navigator.onLine) {
       setSaveStatus("offline", "Нет связи — ответ сохранён на устройстве");
       return;
@@ -622,7 +630,7 @@
   function flushBeforeLeaving() {
     window.clearTimeout(textSaveTimer);
     stashLocal();
-    if (!navigator.onLine || state.lastSavedRevision >= state.revision) return;
+    if (STATIC_DEMO || !navigator.onLine || state.lastSavedRevision >= state.revision) return;
     const payload = snapshot();
     fetch(responseUrl(), {
       method: "PUT",
@@ -1230,7 +1238,7 @@
   });
 
   if (state.lastSavedRevision >= state.revision && state.revision > 0) {
-    setSaveStatus("saved", "Черновик сохранён на сервере");
+    setSaveStatus("saved", STATIC_DEMO ? "Черновик сохранён в браузере" : "Черновик сохранён на сервере");
   } else if (state.revision > 0) {
     setSaveStatus("saving", "Восстанавливаем черновик…");
     saveNow();

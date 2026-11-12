@@ -370,3 +370,12 @@ docker-compose.shared-network.yml  подключение к Docker reverse prox
 - Изменения механики ревизий, атомарной записи и автосохранения требуют повторного нагрузочного и аварийного тестирования.
 
 Готовый текст передачи проекта разработчикам находится в [`docs/HANDOFF.md`](docs/HANDOFF.md).
+
+## GitHub Pages preview
+
+The repository includes a static GitHub Pages build in `pages/`. After the Pages workflow completes:
+
+- Survey: `https://sabinabarotova.github.io/sales-analytics/`
+- Analytics: `https://sabinabarotova.github.io/sales-analytics/analytics/`
+
+The Pages build uses sanitized demo responses and browser-local saving so the survey and dashboard can be reviewed without exposing VDS credentials or response storage. The live server remains the source for production persistence.
