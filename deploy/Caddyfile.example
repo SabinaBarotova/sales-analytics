@@ -1,0 +1,17 @@
+# Вариант 1: отдельный домен, Caddy работает на хосте.
+survey.example.ru {
+	reverse_proxy 127.0.0.1:3000
+}
+
+# Вариант 2: размещение по адресу https://example.ru/reputation/.
+# handle_path удаляет /reputation перед передачей запроса приложению.
+example.ru {
+	redir /reputation /reputation/
+
+	handle_path /reputation/* {
+		reverse_proxy 127.0.0.1:3000
+	}
+}
+
+# Если Caddy запущен в Docker, подключите оба контейнера к общей сети
+# и замените 127.0.0.1:3000 на reputation-survey:3000.

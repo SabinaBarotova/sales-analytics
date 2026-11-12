@@ -1,0 +1,33 @@
+services:
+  reputation-survey:
+    build: .
+    container_name: reputation-survey-codex-edit
+    restart: unless-stopped
+    stop_grace_period: 15s
+    ports:
+      - "0.0.0.0:${SURVEY_PORT:-3300}:3000"
+    environment:
+      ANALYTICS_USER: ${ANALYTICS_USER:-}
+      ANALYTICS_PASSWORD: ${ANALYTICS_PASSWORD:-}
+      SURVEY_PASSWORD: ${SURVEY_PASSWORD:-}
+      SURVEY_COOKIE_PATH: ${SURVEY_COOKIE_PATH:-/}
+      DATA_DIR: /data/responses
+      JOURNAL_DIR: /data/journal
+    volumes:
+      - reputation-survey-data-codex-edit:/data
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  reputation-survey-data-codex-edit:
+    name: reputation-survey-data-codex-edit
+    external: true

@@ -1,0 +1,10 @@
+services:
+  reputation-survey:
+    networks:
+      - default
+      - reverse-proxy
+
+networks:
+  reverse-proxy:
+    external: true
+    name: ${REVERSE_PROXY_NETWORK}

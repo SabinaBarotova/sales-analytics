@@ -1,0 +1,4 @@
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+17 * * * * root BACKUP_RETENTION_DAYS=30 /opt/reputation-survey/scripts/backup-responses.sh >> /var/log/reputation-survey-backup.log 2>&1

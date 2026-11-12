@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#10283e" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Опрос о восприятии компании</title>
+    <link rel="stylesheet" href="styles.css?v=20260728-2" />
+  </head>
+  <body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <main class="survey-shell">
+      <header class="topbar" aria-label="Статус опроса">
+        <a class="brand" href="./" aria-label="Опрос о восприятии компании">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>
+            <strong>СКАЛА<sup>р</sup></strong>
+            <small>исследование репутации</small>
+          </span>
+        </a>
+      </header>
+
+      <section class="survey-card" aria-live="polite">
+        <div class="progress-wrap" id="progress-wrap" hidden>
+          <div class="progress-meta">
+            <span id="step-label">Вопрос</span>
+            <span id="progress-value">0%</span>
+          </div>
+          <div class="progress-track" aria-hidden="true">
+            <div class="progress-bar" id="progress-bar"></div>
+          </div>
+        </div>
+
+        <div id="app" class="app-content"></div>
+      </section>
+
+    </main>
+
+    <script src="app.js?v=20260728-2" defer></script>
+  </body>
+</html>

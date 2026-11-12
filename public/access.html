@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a1f41" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Доступ к исследованию</title>
+    <link rel="icon" href="assets/rubytech-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css?v=20260903-1" />
+  </head>
+  <body>
+    <div class="brand-atmosphere" aria-hidden="true">
+      <div class="brand-atmosphere__ruby"><img src="assets/rubytech-mark.svg" alt="" /></div>
+      <div class="brand-atmosphere__lines"></div>
+      <div class="brand-atmosphere__beam"></div>
+    </div>
+
+    <main class="survey-shell">
+      <header class="topbar" aria-label="Исследование восприятия нашей компании">
+        <span class="brand" aria-label="Rubytech">
+          <img src="assets/rubytech-logo.svg" alt="Rubytech" width="147" height="36" />
+        </span>
+        <div class="brand-context">
+          <span>Группа Rubytech</span>
+          <strong>Исследование репутации</strong>
+        </div>
+      </header>
+
+      <div class="survey-workspace">
+        <aside class="survey-rail access-rail" aria-hidden="true">
+          <div class="survey-rail__top">
+            <strong class="survey-rail__index">••</strong>
+          </div>
+          <div class="survey-rail__bottom">
+            <span class="survey-rail__title">Исследование репутации</span>
+            <span class="survey-rail__marker"><img src="assets/rubytech-mark.svg" alt="" /></span>
+          </div>
+        </aside>
+
+        <section class="survey-card">
+          <span class="survey-card__accent" aria-hidden="true"></span>
+          <div class="app-content access-content">
+            <section class="step access-step">
+              <span class="eyebrow">Внутренняя анкета для сотрудников</span>
+              <h1>Введите пароль</h1>
+
+              <form class="access-form" id="access-form" novalidate>
+                <label class="access-label" for="survey-password">Пароль</label>
+                <div class="access-control">
+                  <input
+                    class="access-input"
+                    id="survey-password"
+                    name="password"
+                    type="password"
+                    autocomplete="current-password"
+                    maxlength="128"
+                    required
+                    autofocus
+                  />
+                  <button class="button button-primary" id="access-submit" type="submit">
+                    Открыть анкету <span class="button-symbol" aria-hidden="true">→</span>
+                  </button>
+                </div>
+                <p class="access-error" id="access-error" role="alert" aria-live="polite"></p>
+              </form>
+            </section>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script src="access.js?v=1" defer></script>
+  </body>
+</html>
