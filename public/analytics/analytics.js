@@ -861,7 +861,7 @@
       const response = await fetch(STATIC_DEMO ? "../demo-data/settings.json" : "../api/analytics/settings", { headers: { Accept: "application/json" }, cache: "no-store" });
       if (!response.ok) throw new Error(`Сервер вернул статус ${response.status}`);
       const payload = await response.json();
-      const localSent = STATIC_DEMO ? window.localStorage.getItem("reputation-survey:sent-total") : null;
+      const localSent = null;
       const rawSent = localSent === null ? payload.sent_total : localSent;
       state.sentTotal = rawSent == null || rawSent === "" ? null : (Number.isSafeInteger(Number(rawSent)) ? Number(rawSent) : null);
       el("sent-total").value = state.sentTotal == null ? "" : state.sentTotal;
@@ -881,7 +881,6 @@
     }
     try {
       if (STATIC_DEMO) {
-        window.localStorage.setItem("reputation-survey:sent-total", value == null ? "" : String(value));
         state.sentTotal = value;
         el("sent-total-status").textContent = state.sentTotal == null ? "Значение очищено в браузере." : `Сохранено в браузере: ${state.sentTotal}`;
         showToast("Число рассылки сохранено в браузере");
